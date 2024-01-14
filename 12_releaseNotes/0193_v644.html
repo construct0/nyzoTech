@@ -8,34 +8,34 @@
 
 <p>
     Nyzo version 644
-    (<a href="https://github.com/construct0/nyzoVerifier/commit/956327877fc403b33f2735e658b69fc20105c5e8"
+    (<a href="https://github.com/construct0/nyzoVerifier/commit/5e048eddf57f79842f0d95b50d7e89598f643afc"
         target="_blank">commits on construct0's GitHub</a>) introduces consensus realignment, new preference flags, new message types, n-tiered blockvote fetching and meshlistener finetuning within <a href="https://github.com/construct0/nyzoVerifier/" target="_blank">construct0's nyzoVerifier repository</a>.
 </p>
 <br/>
-<pre class="emphasis">
+<p class="emphasis">
     This version affects all run modes.
-    
+    <br/><br/>
     This version spans across multiple commits, do not run any subversion other than 7.
-
+    <br/><br/>
     Only version 644.7 has a version tag since the other subversions rendered the major version unfinished.
-    
+    <br/><br/>
     Version 644.7 concludes the final subversion of this version.
-
+    <br/><br/>
 
     Read the entirety of this release note, it contains many important details.
-
+    <br/><br/>
 
     Node operators have 9 days to upgrade their verifiers or until 75% of the in-cycle verifiers run version 644.7, whichever comes first.<br/>The failure to upgrade your personal network in time will mean dropping out of the cycle the next time your verifier<br/> is expected to produce a block.
-
+    <br/><br/>
 
     Node operators should use the temporarily recommended setup of minimally 2 cores and 4GB of RAM per in-cycle verifier, until version 645.
-
+    <br/><br/>
 
     Node operators should upgrade their sentinels first, then their verifiers, to ensure a block can be produced regardless of verifier state.
-
+    <br/><br/>
 
     Your verifier will get blacklisted by approximately 200 unupgraded or otherwise differently configured in-cycle verifiers<br/> after 15 minutes due to these verifiers blacklisting your verifier due to the missing VersionRequest and VersionResponse<br/> message types on their end. This has no impact on block vote propagation and recovery.
-</pre>
+</p>
 <br/>
 <hr/>
 
