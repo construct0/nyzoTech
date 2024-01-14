@@ -21,13 +21,18 @@
     
     Version 644.7 concludes the final subversion of this version.
 
+
     Read the entirety of this release note, it contains many important details.
+
 
     Node operators have 9 days to upgrade their verifiers or until 75% of the in-cycle verifiers run version 644.7, whichever comes first.<br/>The failure to upgrade your personal network in time will mean dropping out of the cycle the next time your verifier<br/> is expected to produce a block.
 
+
     Node operators should use the temporarily recommended setup of minimally 2 cores and 4GB of RAM per in-cycle verifier, until version 645.
 
+
     Node operators should upgrade their sentinels first, then their verifiers, to ensure a block can be produced regardless of verifier state.
+
 
     Your verifier will get blacklisted by approximately 200 unupgraded or otherwise differently configured in-cycle verifiers<br/> after 15 minutes due to these verifiers blacklisting your verifier due to the missing VersionRequest and VersionResponse<br/> message types on their end. This has no impact on block vote propagation and recovery.
 </pre>
@@ -41,11 +46,11 @@ The maximum number of votes has been increased to 1000 from 20. This does not po
 The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been cleaned up to be more clear.<br/><br/>An extra possible path has been added during said cleanup, it pertains to the enabling of verifiers removals after the cycle's open edge height deviates more than 12342 blocks from the frozen edge height, indicating a suboptimal network state or a stalled chain state as we can observe right now. <br/><br/>The logic of updateScoresForFrozenBlock has been extended, if no active in-cycle verifier is found for an identifier, the performance score will only increase until this is rectified. This addition has become opt-in in subversion 1.<br/><br/>Perhaps the most important addition of logic in this subversion is the required amount of block votes required in the UnfrozenBlockManager's attemptToFreezeBlock function. Before a minimum of 75% was required. This logic slowly decreases the percentage of required block votes required with the absolute minimum being 50% of in-cycle verifiers + 1 node to ensure a minimum of 50% regardless of division by 2's end result.<br/><br/>In the NodeManager a new function was added to allow the possibility of checking if an in-cycle verifiers identifier is active.
 </p>
 
-<img src="images/0644/0_01.png" class="code-image"/><br/><br/>
-<img src="images/0644/0_02.png" class="code-image"/><br/><br/>
-<img src="images/0644/0_03.png" class="code-image"/><br/><br/>
-<img src="images/0644/0_04.png" class="code-image"/><br/><br/>
-<img src="images/0644/0_05.png" class="code-image"/>
+<img src="images/0644/rn_644_0.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_1.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_2.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_3.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_4.png" class="code-image"/>
 
 <hr/>
 
@@ -57,7 +62,7 @@ The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been clean
  Due to the performance score increasing regardless of the check introduced in the previous subversion, the logic has been made opt-in using a new preference flag, performance_score_decrement_no_active_incycle_verifier.
 </p>
 
-<img src="images/0644/1_01.png" class="code-image"/>
+<img src="images/0644/rn_644_5.png" class="code-image"/>
 
 <hr/>
 
@@ -67,7 +72,7 @@ The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been clean
 
 </p>
 
-<img src="images/0644/2_01.png" class="code-image"/>
+<img src="images/0644/rn_644_6.png" class="code-image"/>
 
 <hr/>
 
@@ -77,13 +82,13 @@ The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been clean
  New VersionRequest and VersionResponse message types were introduced. In addition to that the existing Version class was modified to a non-static variant in order to make this work with the new message types.<br/><br/>Two new functions were added to the NodeManager which enable the sending of verifier requests and the fetching of versions of the in-cycle verifiers.<br/><br/>These two new functions are not used in this subversion.
 </p>
 
-<img src="images/0644/3_01.png" class="code-image"/><br/><br/>
-<img src="images/0644/3_02.png" class="code-image"/><br/><br/>
-<img src="images/0644/3_03.png" class="code-image"/><br/><br/>
-<img src="images/0644/3_03b.png" class="code-image"/><br/><br/>
-<img src="images/0644/3_04.png" class="code-image"/><br/><br/>
-<img src="images/0644/3_05.png" class="code-image"/><br/><br/>
-<img src="images/0644/3_06.png" class="code-image"/>
+<img src="images/0644/rn_644_7.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_8.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_9.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_10.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_11.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_12.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_13.png" class="code-image"/>
 
 <hr/>
 
@@ -94,7 +99,7 @@ The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been clean
  In this subversion the changes in subversion 3 warranted updating the existing references to the Version class. This was done with as little change as possible, but the initialization of the Version class twice per reference is suboptimal, yet negligible. This will be corrected at a later point in time.
 </p>
 
-<img src="images/0644/4_01.png" class="code-image"/>
+<img src="images/0644/rn_644_14.png" class="code-image"/>
 
 <hr/>
 
@@ -104,7 +109,7 @@ The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been clean
 </p>
 
 <br/>
-<img src="images/0644/5_01.png" class="code-image"/>
+<img src="images/0644/rn_644_15.png" class="code-image"/>
 <br/><br/>
 
 <hr/>
@@ -115,9 +120,9 @@ The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been clean
 </p>
 
 <br/>
-<img src="images/0644/6_01.png" class="code-image"/><br/><br/>
-<img src="images/0644/6_02.png" class="code-image"/><br/><br/>
-<img src="images/0644/6_03.png" class="code-image"/>
+<img src="images/0644/rn_644_16.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_17.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_18.png" class="code-image"/>
 
 <br/><br/>
 <hr/>
@@ -128,7 +133,7 @@ The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been clean
 </p>
 
 <br/>
-<img src="images/0644/7_01.png" class="code-image"/><br/><br/>
-<img src="images/0644/7_02.png" class="code-image"/><br/><br/>
-<img src="images/0644/7_03.png" class="code-image"/>
+<img src="images/0644/rn_644_19.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_20.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_21.png" class="code-image"/>
 <br/><br/>
