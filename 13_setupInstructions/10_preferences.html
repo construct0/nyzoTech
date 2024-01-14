@@ -466,4 +466,31 @@
         </div>
     </div>
 
+    <div class="data-row">
+        <div>web_<wbr>port_<wbr>https</div>
+        <div>integer</div>
+        <div>443</div>
+        <div>Port for the HTTPS web listener. This value will apply to all run modes except those for which a value is
+            separately specified. The names for specific run modes are: <span class="code">web_port_https_client</span>,
+            <span class="code">web_port_https_documentation_server</span>,
+            <span class="code">web_port_https_relay_server</span>, <span class="code">web_port_https_sentinel</span>,
+            and <span class="code">web_port_https_verifier</span>.
+        </div>
+    </div>
+
+    <div class="data-row">
+        <div>performance_score_decrement_no_active_incycle_verifier</div>
+        <div>boolean</div>
+        <div>false</div>
+        <div>Enable a redundant performance score check in regards to verifier in-cycle presence. Default false due to concerns about DDoS affecting your performance score.
+        </div>
+    </div>
+
+    <div class="data-row">
+        <div>enable_fastest_block_votes_recovery</div>
+        <div>boolean</div>
+        <div>false</div>
+        <div>Enable the fastest block votes recovery request procedure. If no block has been frozen in more than 15 minutes, this speeds up the regular process by two, relative to the regular request procedure by factor 4. Not recommended due to blacklisting and chain state at the time of writing (14/01/2024).
+        </div>
+    </div>
 </div>
