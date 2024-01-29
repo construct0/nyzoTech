@@ -4,6 +4,7 @@
 <h1>Nyzo 644: consensus realignment, new preference flags, new message types, n-tiered blockvote fetching and meshlistener finetuning</h1>
 <p>Author: Benjamin Van Renterghem @ construct0 BV</p>
 <p>Date: 14/01/2024</p>
+<p>Last updated: 29/01/24</p>
 <hr/>
 
 <p>
@@ -17,15 +18,15 @@
     <br/><br/>
     This version spans across multiple commits, do not run any subversion other than 7.
     <br/><br/>
-    Only version 644.7 has a version tag since the other subversions rendered the major version unfinished.
+    Version 644.7 and beyond have version tags since the other subversions rendered the major version unfinished and are intended for testing purposes only.
     <br/><br/>
-    Version 644.7 concludes the final subversion of this version.
+    Version 644.9 concludes the final subversion of this version.
     <br/><br/>
 
     Read the entirety of this release note, it contains many important details.
     <br/><br/>
 
-    Node operators have 9 days to upgrade their verifiers or until 75% of the in-cycle verifiers run version 644.7, whichever comes first.<br/>The failure to upgrade your personal network in time will mean dropping out of the cycle the next time your verifier<br/> is expected to produce a block.
+    Node operators have 9 days to upgrade their verifiers or until 75% of the in-cycle verifiers run version 644.7 or higher, whichever comes first.<br/>The failure to upgrade your personal network in time will mean dropping out of the cycle the next time your verifier<br/> is expected to produce a block.
     <br/><br/>
 
     Node operators should use the temporarily recommended setup of minimally 2 cores and 4GB of RAM per in-cycle verifier, until version 645.
@@ -138,4 +139,29 @@ The logic of shouldPenalizeVerifier in the VerifierRemovalManager has been clean
 <img src="images/0644/rn_644_20.png" class="code-image"/><br/><br/>
 <img src="images/0644/rn_644_21.png" class="code-image"/><br/><br/>
 <img src="images/0644/rn_644_22.png" class="code-image"/>
+
 <br/><br/>
+<hr/>
+
+<h3>Subversion 8 - NodeManager & UnfrozenBlockManager bugfixes</h3>
+<p>
+ In the NodeManager the default value of the incycleNodeVersionMap was changed from a null value to an empty ConcurrentHashMap, in addition to that the checks within the getInCycleNodeVersions's function were changed.<br/><br/>
+ In the UnfrozenBlockManager the call to the NodeManager's getInCycleNodeVersions function produced a Map which was based on the nodes instead of the incycle verifier identifiers, one verifier could have multiple nodes running and skew the end result, the new logic reduces the map to a verifier identifier : version mapping, whereby the version is the highest version that can be ascertained (when running multiple nodes with differing versions) for that identifier. <b>This never posed any risk to a correct percentage calculation due to the following.</b><br/><br/>
+ In the same function in the UnfrozenBlockManager the percentage of verifiers passing the minimum version check was wrongly calculated, it should have been multiplied by a factor of 100 to obtain a percentage, this means the end result was smaller by a factor of 100 and the minimum percentage of 75% could never be reached. <b>Together with the other bug, this meant these mistakes never posed any risk whatsoever in terms of enabling the logic when it shouldn't have, as that is mathematically impossible.</b><br/><br/>
+ The minimum subversion was updated to 8 and the date therefore increased to 25/01/24, allowing for 8 more days from that point forward for verifiers to adopt the version.<br/><br/>It is worthy of mentioning that if there is a low percentage of verifiers adopting the version and, should the cycle miraculously start moving again, your verifier <b>could</b> produce a block using less than 75% of incycle verifier block votes, which any non-adopters will not accept, possibly leading to the removal of your in-cycle verifier. An operator may choose to run two instances, each a different version, for each incycle verifier as a failsafe, or delegate this responsibility to two sentinel instances, each running a different version.
+</p>
+
+<br/>
+<img src="images/0644/rn_644_23.png" class="code-image"/><br/><br/>
+<img src="images/0644/rn_644_24.png" class="code-image"/>
+
+<br/><br/>
+<hr/>
+
+<h3>Subversion 9 - Add check & logging to NodeManager's sendVersionRequests function</h3>
+<p>
+ Since the NodeManager's sendVersionRequests function is currently not being used, or appropriate, for sending version requests to non-incycle verifiers, an extra check was added.
+</p>
+
+<br/>
+<img src="images/0644/rn_644_25.png" class="code-image"/><br/><br/>
