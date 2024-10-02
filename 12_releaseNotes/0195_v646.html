@@ -31,5 +31,5 @@
 <p>As can be seen above, the loadBlockFromIndividualFile correctly reads this amount in order to advance the position of the reader by 2. Further reads use the correct starting position to create a Block instance.</p>
 <p>The loadGenesisBlock method did not read the amount of blocks from the byte buffer, subsequent reads were offset by 2 bytes until an exception occurred. In order to prevent the issue from occurring in the future (i.e. modifying the method and not the genesis block file served by nyzo.org) the necessary read operation was added to the method.</p>
 <img src="images/0646/rn_646_1.png"/><br/><br/>
-<p>For clarity, the Sentinel run mode is also affected by this change, as it uses the loadGenesisBlock present in the Verifier class.</p>
+<p>For clarity, the Sentinel run mode is also affected by this change, as it uses the loadGenesisBlock method present in the Verifier class.</p>
 <p>The Client run mode is unaffected as the genesis block is loaded by contacting verifiers listed in the trusted_entry_points file using the loadGenesisBlock method of the ClientDataManager class.</p>
