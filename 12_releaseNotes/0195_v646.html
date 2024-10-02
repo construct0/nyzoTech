@@ -1,0 +1,35 @@
+<link rel="stylesheet" type="text/css" href="../style.css" xmlns="http://www.w3.org/1999/html">
+<script src="../script.js"></script>
+
+<h1>Nyzo 646: Fix loading of missing genesis block</h1>
+<p>Author: Benjamin Van Renterghem @ construct0 FV</p>
+<p>Date: 02/10/2024</p>
+<p>Last updated: 02/10/2024</p>
+<hr/>
+
+<p>
+    Nyzo version 646
+    (<a href="https://github.com/construct0/nyzoVerifier/commit/63c9f7a1af69ce1c6c2ac5f2f6d447f077daad4c" target="_blank">commit on construct0's GitHub</a>) introduces a bug fix in regards to how the fetched genesis block file is handled & incorporated on the system. <a href="https://github.com/construct0/nyzoVerifier/" target="_blank">Changes have been released on construct0's nyzoVerifier repository.</a>
+</p>
+<br/>
+<p class="emphasis">
+    This version affects the Verifier and Sentinel run modes. It does not affect the Client.<br/><br/>
+    Subversion 0 is the final subversion and concludes the release of this major version release. 
+</p>
+<br/>
+<hr/>
+
+<h3>Subversion 0 - Fix loading of missing genesis block</h3>
+<p>Version 645.0 updated nyzo.co references to the nyzo.org web domain, this was necessary due to the nyzo.co being void of any infrastructure it once housed. Providing an equivalent data service on the seed and blocks subdomains went without problems other than an issue arising in regards to how the genesis block which is fetched is loaded in order to store it on the system for further use.</p>
+<p>This issue only presents itself when the genesis block is not present on the system, should the genesis block be present the loadBlockFromIndividualFile method of the BlockManager class, introduced in version 586, loads the block in a correct manner and does not prevent a verifier or sentinel from completing its startup procedure.</p>
+<p><i><u>For reference</u>, the existing method used to load the genesis block present on-disk:</i></p>
+<img src="images/0646/rn_646_2.png"/><br/><br/>
+
+<p>Upon inspecting the genesis block file & the loadGenesisBlock method of the Verifier class, it came to light that the block file contains two bytes (in position 0x00 and 0x01) representing the amount of blocks which the file contains in the Short type format.</p>
+<img src="images/0646/rn_646_0.png"/><br/><br/>
+
+<p>As can be seen above, the loadBlockFromIndividualFile correctly reads this amount in order to advance the position of the reader by 2. Further reads use the correct starting position to create a Block instance.</p>
+<p>The loadGenesisBlock method did not read the amount of blocks from the byte buffer, subsequent reads were offset by 2 bytes until an exception occurred. In order to prevent the issue from occurring in the future (i.e. modifying the method and not the genesis block file served by nyzo.org) the necessary read operation was added to the method.</p>
+<img src="images/0646/rn_646_1.png"/><br/><br/>
+<p>For clarity, the Sentinel run mode is also affected by this change, as it uses the loadGenesisBlock present in the Verifier class.</p>
+<p>The Client run mode is unaffected as the genesis block is loaded by contacting verifiers listed in the trusted_entry_points file using the loadGenesisBlock method of the ClientDataManager class.</p>
