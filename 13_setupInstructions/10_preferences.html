@@ -20,7 +20,7 @@
 </p>
 
 <p>
-    As an example, below are the contents of the <span class="filename">preferences</span> file used on
+    As an example, below are the contents of the <span class="filename">preferences</span> file which used to configure
     <a href="https://client.nyzo.co" target="_blank">client.nyzo.co</a>.
 </p>
 
@@ -95,6 +95,23 @@
     </div>
 
     <div class="data-row">
+        <div>cycle_<wbr>digest_<wbr>file_<wbr>consolidator</div>
+        <div>character string (enumer&shy;ation)</div>
+        <div>empty string</div>
+        <div>
+            Allows three values: <span class="code">consolidate</span>, <span class="code">delete</span>, and
+            <span class="code">disable</span>. The original behavior is <span class="code">consolidate</span>, which
+            bundles all individual files into combined files of up to 1000 cycle digests each, afterwards deleting the
+            individual files to save filesystem resources. The <span class="code">delete</span> option skips
+            consolidation, but it deletes the individual files at the same time as they would be deleted with the
+            <span class="code">consolidate</span> option. The <span class="code">disable</span> option leaves the
+            individual files in place. <span class="italic">For the client, default behavior is
+            <span class="code">consolidate</span>. For the verifier and sentinel, default behavior is
+            <span class="code">delete</span>.</span> Requires the <span class="code">start_cycle_digest_manager</span> preference flag to be set to true.
+        </div>
+    </div>
+
+    <div class="data-row">
         <div>concurrent_<wbr>connection_<wbr>reduction_<wbr>rate</div>
         <div>64-bit floating-point number</div>
         <div>0.02</div>
@@ -138,7 +155,7 @@
     <div class="data-row">
         <div>consolidated_<wbr>block_<wbr>base_<wbr>url</div>
         <div>character string (URL)</div>
-        <div>https://<wbr>blocks.<wbr>nyzo.<wbr>co/<wbr>block<wbr>Files/</div>
+        <div>https://<wbr>blocks.<wbr>nyzo.<wbr>org/</div>
         <div>
             The location referenced by the <span class="code">HistoricalChainFiller</span> for consolidated block files.
             This class is used by the verifier to quickly build the blockchain knowledge necessary to score blocks and
@@ -287,7 +304,7 @@
     <div class="data-row">
         <div>seed_<wbr>transaction_<wbr>base_<wbr>url</div>
         <div>character string (URL)</div>
-        <div>https://<wbr>seed.<wbr>nyzo.<wbr>co/<wbr>seed<wbr>Transactions/</div>
+        <div>https://<wbr>seed.<wbr>nyzo.<wbr>org/</div>
         <div>
             The base URL from which the verifier can download pre-signed seed transactions. The default value points to
             a location provided by the Nyzo team.
@@ -335,6 +352,16 @@
             background process builds the offset files that allow efficient retrieval of blocks from consolidated block
             files. The <span class="code">HistoricalBlockManager</span> is only used by the client. This setting has no
             effect on other run modes.
+        </div>
+    </div>
+
+    <div class="data-row">
+        <div>start_<wbr>cycle_<wbr>digest_<wbr>manager</div>
+        <div>boolean</div>
+        <div>true</div>
+        <div>
+            Whether to start the background process in the <span class="code">CycleDigestManager</span> class. This
+            background process creates and stores individual cycle digests & calls the CycleDigestFileConsolidator at regular intervals, whereby the processing flow therein is controlled by the <span class="code">cycle_digest_file_consolidator</span> preference flag. The <span class="code">CycleDigestManager</span> is only used by the client. This setting has no effect on other run modes.
         </div>
     </div>
 
@@ -467,7 +494,7 @@
     </div>
 
     <div class="data-row">
-        <div>historical_block_<wbr>offset_build_<wbr>throttling</div>
+        <div>historical_<wbr>block_<wbr>offset_<wbr>build_<wbr>throttling</div>
         <div>boolean</div>
         <div>true</div>
         <div>
@@ -478,7 +505,7 @@
     </div>
 
     <div class="data-row">
-        <div>performance_<wbr>score_decrement_<wbr>no_active_<wbr>incycle_verifier</div>
+        <div>performance_<wbr>score_<wbr>decrement_<wbr>no_<wbr>active_<wbr>incycle_<wbr>verifier</div>
         <div>boolean</div>
         <div>false</div>
         <div>Enable a redundant performance score check in regards to verifier in-cycle presence. Default false due to concerns about DDoS affecting your performance score.
@@ -486,7 +513,7 @@
     </div>
 
     <div class="data-row">
-        <div>enable_fastest_<wbr>block_votes_<wbr>recovery</div>
+        <div>enable_<wbr>fastest_<wbr>block_<wbr>votes_<wbr>recovery</div>
         <div>boolean</div>
         <div>false</div>
         <div>Enable the fastest block votes recovery request procedure. If no block has been frozen in more than 15 minutes, this speeds up the regular process by two, relative to the regular request procedure by factor 4. Not recommended due to blacklisting and chain state at the time of writing (14/01/2024).
